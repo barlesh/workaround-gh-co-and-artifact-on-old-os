@@ -37,4 +37,8 @@ jobs:
 
             - name: "Run dummy script"
               run: chmod +x ./downloaded_scripts/dummy_script.sh && ./downloaded_scripts/dummy_script.sh
+
+            - name: "Run dummy script in container"
+              run: |
+                docker run --rm -v $PWD/downloaded_scripts:/scripts ${{ matrix.container }} /bin/bash -c "chmod +x /scripts/dummy_script.sh && /scripts/dummy_script.sh"
      
