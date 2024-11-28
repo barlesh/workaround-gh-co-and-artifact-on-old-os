@@ -1,0 +1,40 @@
+name: Test actions
+
+on:
+    push:
+        branches:
+            - "**"
+    workflow_dispatch:
+
+jobs:
+    binary_test_linuxes:
+        strategy:
+            fail-fast: false
+            matrix:
+                container:
+                    - centos:7
+                    - ubuntu:18.04
+                    - "quay.io/pypa/manylinux2014_x86_64"
+        runs-on: "ubuntu-latest"
+        container: ${{ matrix.container }}
+        steps:
+            - name: "Checkout sources"
+              uses: "actions/checkout@v4"
+              with:
+                  fetch-depth: 1
+
+            - name: "Upload dummy script"
+              uses: "actions/upload-artifact@v3"
+              with:
+                  name: dummy-script
+                  path: dummy_script.sh
+
+            - name: "Download dummy script"
+              uses: "actions/download-artifact@v3"
+              with:
+                  name: dummy-script
+                  path: ./downloaded_scripts
+
+            - name: "Run dummy script"
+              run: chmod +x ./downloaded_scripts/dummy_script.sh && ./downloaded_scripts/dummy_script.sh
+     
