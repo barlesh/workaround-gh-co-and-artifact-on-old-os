@@ -16,7 +16,7 @@ jobs:
                     - ubuntu:18.04
                     - "quay.io/pypa/manylinux2014_x86_64"
         runs-on: "ubuntu-latest"
-        container: ${{ matrix.container }}
+        # container: ${{ matrix.container }}
         steps:
             - name: "Checkout sources"
               uses: "actions/checkout@v4"
